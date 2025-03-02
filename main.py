@@ -26,3 +26,18 @@ y = dataset.iloc[:, -1].values #picked only last coloumn
 print("Features :\n",X)
 print("Target :\n",y)
 print()
+
+#adds missing values to the data by using mean mode or median
+from sklearn.impute import SimpleImputer
+imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
+#transform the data for the entire dataset (age and salary alone)
+X[:,1:3] = imputer.fit_transform(X[:,1:3])
+
+print("After Imputing :\n",X)
+
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+
+ct = ColumnTransformer(transformers=[("encoder", OneHotEncoder(),[0])],remainder="passthrough")
+X = pd.DataFrame(ct.fit_transform(X))
+print("One Hot Encoding :\n", X)
