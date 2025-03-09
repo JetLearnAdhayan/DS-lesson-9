@@ -35,9 +35,40 @@ X[:,1:3] = imputer.fit_transform(X[:,1:3])
 
 print("After Imputing :\n",X)
 
+#coverts letters into numbers (objective data into numerical data)
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 
 ct = ColumnTransformer(transformers=[("encoder", OneHotEncoder(),[0])],remainder="passthrough")
 X = pd.DataFrame(ct.fit_transform(X))
 print("One Hot Encoding :\n", X)
+
+from sklearn.preprocessing import LabelEncoder 
+le = LabelEncoder()
+#for yes is 1 and for no is 0
+
+y = le.fit_transform(y)
+print("Label Encoder :\n", y)
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size= 0.2, random_state=1)
+
+print("Xtrain: \n",X_train)
+print("X_test: \n", X_test)
+print("Y_train: \n", y_train)
+print("Y_test: \n", y_test)
+
+#feature scaling from -1 to +1
+#if the difference between the values is huge the system training and testing gets affected
+from sklearn.preprocessing  import StandardScaler
+sc = StandardScaler()
+
+X_train.iloc[:,1:3] = sc.fit_transform(X_train.iloc[:,1:3])
+X_test.iloc[:,1:3] = sc.fit_transform(X_test.iloc[:,1:3])
+
+print("After Scaling the values from -1 to +1: \n")
+print(X_train)
+print(X_test)
+
+
+
